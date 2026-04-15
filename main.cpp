@@ -18,9 +18,22 @@ struct Vehiculo {
 };
 //4. funciones - se implementan en fases posteriores
 void inicializarMapa(char mapa[filas][columnas]) {
-    // fase 2
+    // Recorrer toda la matriz
+    for (int i = 0; i < filas; i++) {
+        for (int j = 0; j < columnas; j++) {
+            // Si la fila es multiplo de 3, o es borde lateral es via
+            if (i % 3 == 0 || j == 0 || j == columnas - 1) {
+                mapa[i][j] = '.';
+            } else {
+                //lo demas espacio para parquear
+                mapa[i][j] = 'P';
+            }
+        }
+    }
+    // Entrada arriba izquierda, salida abajo derecha
+    mapa[0][0]='E';
+    mapa[filas-1][columnas-1]='S';
 }
-
 void mostrarMapa(char mapa[filas][columnas]) {
     // fase 2
 }
