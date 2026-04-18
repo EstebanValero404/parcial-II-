@@ -92,6 +92,18 @@ void registrarIngreso(char mapa[filas][columnas],Vehiculo*vehiculos,int*contador
     std::cout<<"Vehiculo "<<placa<<" registrado en ["
          <<filaLibre<<"]["<<columnaLibre<<"]"<<std::endl;
 }
+double calcularCobro(time_t horaEntrada,time_t horaSalida){
+    //con la diferencia de tiempo podremos calcular el cobro 
+    //(pasandolo primero a segundos)
+    double segundos=difftime(horaSalida,horaEntrada);
+    //ahora pasar a horas
+    double horas=segundos/3600.0;
+    //minimo cobro de 1 hora, como una tarifa minima por asi decirlo.
+    if(horas<1.0){
+        horas=1.0;
+    }
+    return horas*TarifaHora;
+}
 void registrarSalida(char mapa[filas][columnas],Vehiculo*vehiculos,int contador){
     //pedir la placa del que va a salir  
     std::string placa;
@@ -122,18 +134,6 @@ void registrarSalida(char mapa[filas][columnas],Vehiculo*vehiculos,int contador)
     mapa[vehiculos[posicion].fila][vehiculos[posicion].columna]='P';
     //poner el espacio (su estado) que esta libre 
     vehiculos[posicion].activo=false;
-}
-double calcularCobro(time_t horaEntrada,time_t horaSalida){
-    //con la diferencia de tiempo podremos calcular el cobro 
-    //(pasandolo primero a segundos)
-    double segundos=difftime(horaSalida,horaEntrada);
-    //ahora pasar a horas
-    double horas=segundos/3600.0;
-    //minimo cobro de 1 hora, como una tarifa minima por asi decirlo.
-    if(horas<1.0){
-        horas=1.0;
-    }
-    return horas*TarifaHora;
 }
 //5.el main
 int main(){
