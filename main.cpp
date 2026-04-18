@@ -131,29 +131,5 @@ int main() {
             default: std::cout << "Opcion invalida." << std::endl;
         }
     } while (opcion != 0);
-    return 0
-    // preparar el mapa para mostrarlo al usuario
-    inicializarMapa(mapa);
-    do {
-        std::cout<<"\n===== PARQUEADERO ====="<<std::endl;
-        std::cout<<"1.Ver mapa"<<std::endl;
-        std::cout<<"2.Registrar ingreso"<<std::endl;
-        std::cout<<"3.Registrar salida"<<std::endl;
-        std::cout<<"0. Salir"<<std::endl;
-        std::cout<<"Opcion:";
-        std::cin>>opcion;
-        //mostrar el menu 
-        switch (opcion){
-            case 1:mostrarMapa(mapa);
-            break;
-            case 2:registrarIngreso(mapa,vehiculos,&contador);
-            break;
-            case 3:registrarSalida(mapa,vehiculos,contador);
-            break;
-            case 0:std::cout<<"Hasta luego!"<<std::endl;
-            break;
-            default:std::cout<<"Opcion invalida."<<std::endl;
-        }
-    } while (opcion!=0);
     return 0;
 }
