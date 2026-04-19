@@ -1,8 +1,8 @@
-//1. Librerias 
+//1.Librerias 
 #include <iostream>
 #include <string>
 #include <ctime>
-//2. contantes
+//2.contantes
 const int filas=16;
 const int columnas=16;
 const int MaxVehiculos=150;
@@ -13,7 +13,7 @@ struct Vehiculo {
     time_t horaEntrada;
     int fila;
     int columna;
-    bool activo; // true = está parqueado | false = libre
+    bool activo;//true=está parqueado y false=libre
 };
 //4.funciones-se implementan en fases anteriores
 void inicializarMapa(char mapa[filas][columnas]) {
@@ -65,55 +65,55 @@ void mostrarMapa(char mapa[filas][columnas]) {
         std::cout<<std::endl;
     }
 }
-void registrarIngreso(char mapa[filas][columnas], Vehiculo *vehiculos, int *contador) {
-    // Verificar que no este lleno el parqueadero
-    if (*contador >= MaxVehiculos) {
-        std::cout << "Parqueadero lleno." << std::endl;
+void registrarIngreso(char mapa[filas][columnas],Vehiculo*vehiculos,int*contador){
+    //Verificar que no este lleno el parqueadero
+    if (*contador>=MaxVehiculos){
+        std::cout<<"Parqueadero lleno."<<std::endl;
         return;
     }
-    // pedir la placa
+    //pedir la placa
     std::string placa;
-    std::cout << "Ingrese la placa del vehiculo: ";
-    std::cin >> placa;
-    // verificar que pues ya no este dentro del parqueadero el vehiculo 
-    for (int i = 0; i < *contador; i++) {
-        if (vehiculos[i].activo && vehiculos[i].placa == placa) {
-            std::cout << "Ese vehiculo ya esta en el parqueadero." << std::endl;
+    std::cout<<"Ingrese la placa del vehiculo: ";
+    std::cin>>placa;
+    //verificar que pues ya no este dentro del parqueadero el vehiculo 
+    for (int i=0;i<*contador;i++){
+        if(vehiculos[i].activo && vehiculos[i].placa==placa){
+            std::cout<<"Ese vehiculo ya esta en el parqueadero."<<std::endl;
             return;
         }
     }
-    // buscar espacio libre osea una "P" libre 
-    int filaLibre = -1;
-    int columnaLibre = -1;
-    for (int i = 0; i < filas; i++) {
-        for (int j = 0; j < columnas; j++) {
-            if (mapa[i][j] == 'P') {
-                filaLibre = i;
-                columnaLibre = j;
+    //buscar espacio libre osea una "P" libre 
+    int filaLibre=-1;
+    int columnaLibre=-1;
+    for (int i=0;i<filas;i++){
+        for (int j=0;j<columnas;j++){
+            if (mapa[i][j]=='P'){
+                filaLibre=i;
+                columnaLibre=j;
                 break;
             }
         }
-        if (filaLibre != -1) {
+        if(filaLibre!=-1){
             break;
         }
     }
-    // si no encontro espacio libre entonces:
-    if (filaLibre == -1) {
-        std::cout << "No hay espacios disponibles." << std::endl;
+    //si no encontro espacio libre entonces:
+    if (filaLibre==-1){
+        std::cout<<"No hay espacios disponibles."<<std::endl;
         return;
     }
-    // guardar los datos del vehiculo
-    vehiculos[*contador].placa = placa;
-    vehiculos[*contador].horaEntrada = time(0); // empieza a correr el tiempo aqui 
-    vehiculos[*contador].fila = filaLibre;
-    vehiculos[*contador].columna = columnaLibre;
-    vehiculos[*contador].activo = true;
-    // marcar el espacio en el mapa y sumar al contador (se marca con una X)
-    mapa[filaLibre][columnaLibre] = 'X';
-    *contador = *contador + 1;
-    // mostrarle al usuario como quedo el registro
-    std::cout << "Vehiculo " << placa << " registrado en ["
-         << filaLibre << "][" << columnaLibre << "]" << std::endl;
+    //guardar los datos del vehiculo
+    vehiculos[*contador].placa=placa;
+    vehiculos[*contador].horaEntrada=time(0);//empieza a correr el tiempo aqui 
+    vehiculos[*contador].fila=filaLibre;
+    vehiculos[*contador].columna=columnaLibre;
+    vehiculos[*contador].activo=true;
+    //marcar el espacio en el mapa y sumar al contador (se marca con una X)
+    mapa[filaLibre][columnaLibre]='X';
+    *contador=*contador+1;
+    //mostrarle al usuario como quedo el registro
+    std::cout<<"Vehiculo "<<placa<<" registrado en ["
+         <<filaLibre<<"]["<<columnaLibre<<"]"<<std::endl;
 }
     void registrarSalida(char mapa[filas][columnas], Vehiculo *vehiculos, int contador) {
     // fase 4
@@ -148,11 +148,6 @@ int main() {
              break;
             case 2: registrarIngreso(mapa, vehiculos,&contador);   
             break;
-            case 3: registrarSalida(mapa, vehiculos,contador);    
-            break;
-            case 0: std::cout << "Hasta luego!" << std::endl;                
-            break;
-            default: std::cout << "Opcion invalida." << std::endl;
         }
     } while (opcion != 0);
     return 0;
