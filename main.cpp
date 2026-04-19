@@ -8,18 +8,13 @@ const int columnas=16;
 const int MaxVehiculos=150;
 const double TarifaHora=3000.0;
 //3. funcion vehiculo - datos de cada vehiculo, placa, hora de entrada, fila, columna, activo o no
-<<<<<<< HEAD
 struct Vehiculo {
-=======
-struct Vehiculo{
->>>>>>> 7e98e8d311cd8783aef0750f43470b7a59a881a3
     std::string placa;
     time_t horaEntrada;
     int fila;
     int columna;
     bool activo; // true = está parqueado | false = libre
 };
-<<<<<<< HEAD
 //4.funciones-se implementan en fases anteriores
 void inicializarMapa(char mapa[filas][columnas]) {
     // Recorrer toda la matriz
@@ -31,47 +26,43 @@ void inicializarMapa(char mapa[filas][columnas]) {
             } else {
                 // lo demas espacio para parquear
                 mapa[i][j] = 'P';
-=======
-//4. funciones - se implementan en fases posteriores
-void inicializarMapa(char mapa[filas][columnas]){
-    // Recorrer toda la matriz
-    for (int i=0;i<filas;i++){
-        for (int j=0;j<columnas;j++){
-            // Si la fila es multiplo de 3, o es borde lateral = via
-            if (i%3==0||j==0||j==columnas-1){
-                mapa[i][j]='.';
-            }else{
-                //lo demas espacio para parquear
-                mapa[i][j]='P';
->>>>>>> 7e98e8d311cd8783aef0750f43470b7a59a881a3
             }
         }
     }
     // Entrada arriba izquierda, salida abajo derecha
-<<<<<<< HEAD
     mapa[0][0] = 'E';
     mapa[filas - 1][columnas - 1] = 's';
 }
 void mostrarMapa(char mapa[filas][columnas]) {
-    //recorrer el mapa
-    for (int i = 0; i < filas; i++) {
-        for (int j = 0; j < columnas; j++) {
-            std::cout << mapa[i][j] << ' ';
+     //ver que espacios hay libres
+    int libres=0;
+    for(int i=0;i<filas;i++){
+        for(int j=0;j<columnas;j++){
+            if(mapa[i][j]=='P'){
+                libres=libres+1;
+            }
         }
-        std::cout << std::endl;
-=======
-    mapa[0][0]='E';
-    mapa[filas-1][columnas-1]='S';
-}
-void mostrarMapa(char mapa[filas][columnas]){
-    // recorrer el mapa
-    for (int i=0;i<filas;i++) {
-        for (int j=0;j<columnas;j++){
-            // mostrar el mapa
-            std::cout<<mapa[i][j]<<" ";
+    }
+    //mostrar los cupos libres 
+    std::cout<<"Espacios disponibles: "<<libres<<"/"<<MaxVehiculos<<std::endl;
+    //darle el color a cada espacio
+    for(int i=0;i<filas;i++){
+        for(int j=0;j<columnas;j++){
+            if(mapa[i][j]=='P'){
+                // verde para espacios libres
+                std::cout<<"\033[32m"<<mapa[i][j]<<"\033[0m"<<' ';
+            }else if(mapa[i][j]=='X'){
+                // rojo para espacios ocupados
+                std::cout<<"\033[31m"<<mapa[i][j]<<"\033[0m"<<' ';
+            }else if(mapa[i][j]=='E' || mapa[i][j]=='S'){
+                //cian para entrada y salida
+                std::cout<<"\033[36m"<<mapa[i][j]<<"\033[0m"<<' ';
+            }else{
+                //amarillo para las vias
+                std::cout<<"\033[33m"<<mapa[i][j]<<"\033[0m" <<' ';
+            }
         }
-        std::cout<<"\n";
->>>>>>> 7e98e8d311cd8783aef0750f43470b7a59a881a3
+        std::cout<<std::endl;
     }
 }
 void registrarIngreso(char mapa[filas][columnas], Vehiculo *vehiculos, int *contador) {
@@ -124,11 +115,7 @@ void registrarIngreso(char mapa[filas][columnas], Vehiculo *vehiculos, int *cont
     std::cout << "Vehiculo " << placa << " registrado en ["
          << filaLibre << "][" << columnaLibre << "]" << std::endl;
 }
-<<<<<<< HEAD
     void registrarSalida(char mapa[filas][columnas], Vehiculo *vehiculos, int contador) {
-=======
-void registrarSalida(char mapa[filas][columnas], Vehiculo *vehiculos, int contador) {
->>>>>>> 7e98e8d311cd8783aef0750f43470b7a59a881a3
     // fase 4
 }
 double calcularCobro(time_t horaEntrada, time_t horaSalida) {
@@ -145,7 +132,6 @@ int main() {
     int contador = 0;
     // opcion que elige el usuario en el menu
     int opcion;
-<<<<<<< HEAD
     // preparar el mapa antes de usarlo
     inicializarMapa(mapa);
     do {
@@ -169,30 +155,5 @@ int main() {
             default: std::cout << "Opcion invalida." << std::endl;
         }
     } while (opcion != 0);
-=======
-    // preparar el mapa para mostrarlo al usuario
-    inicializarMapa(mapa);
-    do {
-        std::cout<<"\n===== PARQUEADERO ====="<<std::endl;
-        std::cout<<"1.Ver mapa"<<std::endl;
-        std::cout<<"2.Registrar ingreso"<<std::endl;
-        std::cout<<"3.Registrar salida"<<std::endl;
-        std::cout<<"0. Salir"<<std::endl;
-        std::cout<<"Opcion:";
-        std::cin>>opcion;
-        //mostrar el menu 
-        switch (opcion){
-            case 1:mostrarMapa(mapa);
-            break;
-            case 2:registrarIngreso(mapa,vehiculos,&contador);
-            break;
-            case 3:registrarSalida(mapa,vehiculos,contador);
-            break;
-            case 0:std::cout<<"Hasta luego!"<<std::endl;
-            break;
-            default:std::cout<<"Opcion invalida."<<std::endl;
-        }
-    } while (opcion!=0);
->>>>>>> 7e98e8d311cd8783aef0750f43470b7a59a881a3
     return 0;
 }
