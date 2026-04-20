@@ -15,13 +15,13 @@ struct Vehiculo{
     int columna;
     bool activo;//true=está parqueado y false=libre
 };
-//4.funciones-se implementan en fases anteriores
+//4.funciones
 void inicializarMapa(char mapa[filas][columnas]){
     //Recorrer toda la matriz
-    for (int i=0;i<filas;i++){
-        for (int j=0;j<columnas;j++){
+    for(int i=0;i<filas;i++){
+        for(int j=0;j<columnas;j++){
             //Si la fila es multiplo de 3, o es borde lateral = via
-            if (i%3==0||j==0){
+            if(i%3==0||j==0){
                 mapa[i][j]='.';
             }else{
                 //lo demas espacio para parquear
@@ -32,11 +32,8 @@ void inicializarMapa(char mapa[filas][columnas]){
     //Entrada arriba izquierda, salida abajo derecha
     mapa[0][0]='E';
     mapa[filas-1][columnas-1]='S';
-    // Entrada arriba izquierda, salida abajo derecha
-    mapa[0][0] = 'E';
-    mapa[filas - 1][columnas - 1] = 'S';
 }
-void mostrarMapa(char mapa[filas][columnas]) {
+void mostrarMapa(char mapa[filas][columnas]){
     //ver que espacios hay libres
     int libres=0;
     for(int i=0;i<filas;i++){
@@ -52,17 +49,17 @@ void mostrarMapa(char mapa[filas][columnas]) {
     for(int i=0;i<filas;i++){
         for(int j=0;j<columnas;j++){
             if(mapa[i][j]=='P'){
-                // verde para espacios libres
+                //verde para espacios libres
                 std::cout<<"\033[32m"<<mapa[i][j]<<"\033[0m"<<' ';
             }else if(mapa[i][j]=='X'){
-                // rojo para espacios ocupados
+                //rojo para espacios ocupados
                 std::cout<<"\033[31m"<<mapa[i][j]<<"\033[0m"<<' ';
-            }else if(mapa[i][j]=='E' || mapa[i][j]=='S'){
+            }else if(mapa[i][j]=='E'||mapa[i][j]=='S'){
                 //cian para entrada y salida
                 std::cout<<"\033[36m"<<mapa[i][j]<<"\033[0m"<<' ';
             }else{
                 //amarillo para las vias
-                std::cout<<"\033[33m"<<mapa[i][j]<<"\033[0m" <<' ';
+                std::cout<<"\033[33m"<<mapa[i][j]<<"\033[0m"<<' ';
             }
         }
         std::cout<<std::endl;
@@ -70,7 +67,7 @@ void mostrarMapa(char mapa[filas][columnas]) {
 }
 void registrarIngreso(char mapa[filas][columnas],Vehiculo*vehiculos,int*contador){
     //Verificar que no este lleno el parqueadero
-    if (*contador>=MaxVehiculos){
+    if(*contador>=MaxVehiculos){
         std::cout<<"Parqueadero lleno."<<std::endl;
         return;
     }
@@ -79,8 +76,8 @@ void registrarIngreso(char mapa[filas][columnas],Vehiculo*vehiculos,int*contador
     std::cout<<"Ingrese la placa del vehiculo: ";
     std::cin>>placa;
     //verificar que pues ya no este dentro del parqueadero el vehiculo 
-    for (int i=0;i<*contador;i++){
-        if(vehiculos[i].activo && vehiculos[i].placa==placa){
+    for(int i=0;i<*contador;i++){
+        if(vehiculos[i].activo&&vehiculos[i].placa==placa){
             std::cout<<"Ese vehiculo ya esta en el parqueadero."<<std::endl;
             return;
         }
@@ -88,9 +85,9 @@ void registrarIngreso(char mapa[filas][columnas],Vehiculo*vehiculos,int*contador
     //buscar espacio libre osea una "P" libre 
     int filaLibre=-1;
     int columnaLibre=-1;
-    for (int i=0;i<filas;i++){
-        for (int j=0;j<columnas;j++){
-            if (mapa[i][j]=='P'){
+    for(int i=0;i<filas;i++){
+        for(int j=0;j<columnas;j++){
+            if(mapa[i][j]=='P'){
                 filaLibre=i;
                 columnaLibre=j;
                 break;
@@ -101,7 +98,7 @@ void registrarIngreso(char mapa[filas][columnas],Vehiculo*vehiculos,int*contador
         }
     }
     //si no encontro espacio libre entonces:
-    if (filaLibre==-1){
+    if(filaLibre==-1){
         std::cout<<"No hay espacios disponibles."<<std::endl;
         return;
     }
@@ -131,21 +128,21 @@ double calcularCobro(time_t horaEntrada,time_t horaSalida){
     return horas*TarifaHora;
 }
 //recibe punteros de totalRecaudado y totalSalidas para actualizarlos
-void registrarSalida(char mapa[filas][columnas], Vehiculo* vehiculos, int contador, double* totalRecaudado, int* totalSalidas){
+void registrarSalida(char mapa[filas][columnas],Vehiculo*vehiculos,int contador,double*totalRecaudado,int*totalSalidas){
     //pedir la placa del que va a salir  
     std::string placa;
     std::cout<<"Ingrese la placa del vehiculo a retirar: ";
     std::cin>>placa;
     //buscarlo entre los vehiculos 
     int posicion=-1;
-    for (int i=0;i<contador;i++) {
-        if(vehiculos[i].activo && vehiculos[i].placa==placa){
+    for(int i=0;i<contador;i++){
+        if(vehiculos[i].activo&&vehiculos[i].placa==placa){
             posicion=i;
             break;
         }
     }
     //si no encuentra el vehiculo entonces:
-    if (posicion==-1){
+    if(posicion==-1){
         std::cout<<"Vehiculo no encontrado."<<std::endl;
         return;
     }
@@ -161,7 +158,7 @@ void registrarSalida(char mapa[filas][columnas], Vehiculo* vehiculos, int contad
     mapa[vehiculos[posicion].fila][vehiculos[posicion].columna]='P';
     //poner el espacio (su estado) que esta libre 
     vehiculos[posicion].activo=false;
-    //acumular al reporte 
+    //acumular al reporte
     *totalRecaudado=*totalRecaudado+cobro;
     *totalSalidas=*totalSalidas+1;
 }
@@ -177,14 +174,14 @@ void reporteIngresos(int totalEntradas,int totalSalidas,double totalRecaudado){
     std::cout<<"============================="<<std::endl;
 }
 void editarPlaca(Vehiculo*vehiculos,int contador){
-    // pedir la placa a corregir
+    //pedir la placa a corregir
     std::string placaActual;
     std::cout<<"Ingrese la placa actual del vehiculo: ";
     std::cin>>placaActual;
     //buscar el vehiculo con esa placa
     int posicion=-1;
-    for (int i=0;i<contador;i++){
-        if(vehiculos[i].activo && vehiculos[i].placa==placaActual){
+    for(int i=0;i<contador;i++){
+        if(vehiculos[i].activo&&vehiculos[i].placa==placaActual){
             posicion=i;
             break;
         }
@@ -200,7 +197,7 @@ void editarPlaca(Vehiculo*vehiculos,int contador){
     std::cin>>placaNueva;
     //verificar que la placa nueva no este ya en uso
     for(int i=0;i<contador;i++){
-        if(vehiculos[i].activo && vehiculos[i].placa==placaNueva){
+        if(vehiculos[i].activo&&vehiculos[i].placa==placaNueva){
             std::cout<<"Esa placa ya esta registrada en el parqueadero."<<std::endl;
             return;
         }
@@ -215,43 +212,44 @@ int main(){
     char mapa[filas][columnas];
     //arreglo con todos los vehiculos que estan adentro
     Vehiculo vehiculos[MaxVehiculos];
-    // cuantos vehiculos hay actualmente en el parqueadero
-    int contador = 0;
+    //saber cuantos vehiculos hay actualmente en el parqueadero
+    int contador=0;
     //variables para el reporte de ingresos
     int totalEntradas=0;
     int totalSalidas=0;
     double totalRecaudado=0.0;
-    // opcion que elige el usuario en el menu
+    //opcion que elige el usuario en el menu
     int opcion;
     //preparar el mapa antes de usarlo
     inicializarMapa(mapa);
-    do {
-        std::cout << "\n===== PARQUEADERO=====" << std::endl;
-        std::cout << "1. Ver mapa"              << std::endl;
-        std::cout << "2. Registrar ingreso"     << std::endl;
-        std::cout << "3. Registrar salida"      << std::endl;
+    do{
+        //mostrar el menu 
+        std::cout<<"=====PARQUEADERO====="<<std::endl;
+        std::cout<<"1.Ver mapa"<<std::endl;
+        std::cout<<"2.Registrar ingreso"<<std::endl;
+        std::cout<<"3.Registrar salida"<<std::endl;
         std::cout<<"4.Reporte de ingresos"<<std::endl;
         std::cout<<"5.Editar placa"<<std::endl;
-        std::cout << "0. Salir"                 << std::endl;
-        std::cout << "Opcion: ";
-        std::cin  >> opcion;
-          // mostrar el menu 
-        switch (opcion) {
-    case 1: mostrarMapa(mapa);                            
-    break;
-    case 2: registrarIngreso(mapa, vehiculos, &contador);
-            totalEntradas = totalEntradas + 1;
-    break;
-    case 3: registrarSalida(mapa, vehiculos, contador, &totalRecaudado, &totalSalidas);
-    break;
-    case 4: reporteIngresos(totalEntradas, totalSalidas, totalRecaudado);
-    break;
-    case 5: editarPlaca(vehiculos, contador);
-    break;
-    case 0: std::cout << "Hasta luego!" << std::endl;
-    break;
-    default: std::cout << "Opcion invalida." << std::endl;
-}
-    } while (opcion != 0);
+        std::cout<<"0.Salir"<<std::endl;
+        std::cout<<"Opcion: ";
+        std::cin>>opcion;
+        //leer el menu 
+        switch(opcion){
+            case 1:mostrarMapa(mapa);
+            break;
+            case 2:registrarIngreso(mapa,vehiculos,&contador);
+                   totalEntradas=totalEntradas+1;
+            break;
+            case 3:registrarSalida(mapa,vehiculos,contador,&totalRecaudado,&totalSalidas);
+            break;
+            case 4:reporteIngresos(totalEntradas,totalSalidas,totalRecaudado);
+            break;
+            case 5:editarPlaca(vehiculos,contador);
+            break;
+            case 0:std::cout<<"Hasta luego!"<<std::endl;
+            break;
+            default:std::cout<<"Opcion invalida."<<std::endl;
+        }
+    }while(opcion!=0);
     return 0;
 }
